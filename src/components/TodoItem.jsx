@@ -12,8 +12,12 @@ const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
 
   return (
     <div className="TodoItem">
-      <input onChange={onChangeCheckbox} checked={isDone} type="checkbox" />{" "}
-      {/*button이 아니라 input 요소이기 때문에 onClick이 아닌 onChange 사용*/}
+      <input
+        onChange={onChangeCheckbox}
+        readOnly
+        checked={isDone}
+        type="checkbox"
+      />
       <div className="content">{content}</div>
       <div className="date">{new Date(date).toLocaleDateString()}</div>
       <button onClick={onClickDeleteButton}>삭제</button>
@@ -21,15 +25,14 @@ const TodoItem = ({ id, isDone, content, date, onUpdate, onDelete }) => {
   );
 };
 
-export default memo(TodoItem, (prevProps, nextProps) => {
-  // 변화에 따라 props가 바뀌었는지 안 바뀌었는지 판단
-  // T -> Props 바뀌지 않았으므로 리렌더링 X
-  // F -> Props 바뀌었으므로 리렌더링 O
+// // 고차 컴포넌트 HOC
+// export default memo(TodoItem, (prevProps, nextProps) => {
+//   if (prevProps.id !== nextProps.id) return false;
+//   if (prevProps.isDone !== nextProps.isDone) return false;
+//   if (prevProps.content !== nextProps.isDone) return false;
+//   if (prevProps.date !== nextProps.date) return false;
 
-  if (prevProps.id !== nextProps.id) return false;
-  if (prevProps.isDone !== nextProps.isDone) return false;
-  if (prevProps.content !== nextProps.isDone) return false;
-  if (prevProps.date !== nextProps.date) return false;
+//   return true;
+// });
 
-  return true;
-});
+export default memo(TodoItem);
